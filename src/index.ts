@@ -14,7 +14,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("src/public"));
 
 // Import DB
-import dbConnection from "./db/config.js";
 
 // Import routes
 import healthRouter from "./routes/health.route.js";
@@ -24,6 +23,8 @@ import pastesRouter from "./routes/paste.route.js";
 import Paste from "./models/paste.model.js";
 import { getCurrentTime, isExpired } from "./utils/time.js";
 
+import dbConnection from "./db/config.js";
+dbConnection().catch(console.error);
 // API Routes
 app.use("/api", healthRouter);
 app.use("/api", pastesRouter);
@@ -147,5 +148,4 @@ const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);
-  await dbConnection();
 });
