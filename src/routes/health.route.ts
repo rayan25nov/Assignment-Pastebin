@@ -10,10 +10,14 @@ router.get("/health", async (_req: Request, res: Response) => {
 
     res.status(200).json({
       ok: isConnected,
+      message: isConnected ? "DB Connected" : "DB Not Connected",
+      success: isConnected,
     });
   } catch (error) {
     res.status(200).json({
       ok: false,
+      message: (error as Error).message,
+      error,
     });
   }
 });
