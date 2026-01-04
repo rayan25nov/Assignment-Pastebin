@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pastebin Lite</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+      }
+      textarea {
+        width: 100%;
+        min-height: 200px;
+        padding: 10px;
+        font-family: monospace;
+      }
+      input,
+      button {
+        margin: 10px 5px 10px 0;
+        padding: 10px;
+      }
+      button {
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      .result {
+        margin-top: 20px;
+        padding: 15px;
+        background: #f0f0f0;
+        display: none;
+      }
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Pastebin Lite</h1>
+
+    <form id="pasteForm">
+      <textarea
+        id="content"
+        placeholder="Enter your text here..."
+        required
+      ></textarea>
+
+      <div>
+        <label>
+          TTL (seconds):
+          <input type="number" id="ttl" min="1" placeholder="Optional" />
+        </label>
+
+        <label>
+          Max views:
+          <input type="number" id="maxViews" min="1" placeholder="Optional" />
+        </label>
+      </div>
+
+      <button type="submit">Create Paste</button>
+    </form>
+
+    <div id="result" class="result"></div>
+
+    <script>
+      document
+        .getElementById("pasteForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const content = document.getElementById("content").value;
+          const ttl = document.getElementById("ttl").value;
+          const maxViews = document.getElementById("maxViews").value;
+
+          const body = { content };
+          if (ttl) body.ttl_seconds = parseInt(ttl);
+          if (maxViews) body.max_views = parseInt(maxViews);
+
+          try {
+            const response = await fetch("/api/pastes", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(body),
+            });
+
+            const data = await response.json();
+            const resultDiv = document.getElementById("result");
+
+            if (response.ok) {
+              resultDiv.innerHTML = `
+            <h3>Paste created successfully!</h3>
+            <p>URL: <a href="${data.url}" target="_blank">${data.url}</a></p>
+            <p>ID: ${data.id}</p>
+          `;
+              resultDiv.style.display = "block";
+              document.getElementById("pasteForm").reset();
+            } else {
+              resultDiv.innerHTML = `<p class="error">Error: ${data.error}</p>`;
+              resultDiv.style.display = "block";
+            }
+          } catch (error) {
+            document.getElementById(
+              "result"
+            ).innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            document.getElementById("result").style.display = "block";
+          }
+        });
+    </script>
+  </body>
+</html>

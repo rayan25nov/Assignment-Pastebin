@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "785a5aa8-4dd2-461f-a2dd-861541186696",
+		"name": "pastebin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25311957"
+	},
+	"item": [
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "paste",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"content\":\"Hello World\"}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/pastes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pastes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "paste ttl 60",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"content\":\"This expires in 60 seconds\",\"ttl_seconds\":60}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/pastes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pastes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "paste maxview 3",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"content\":\"Limited to 3 views\",\"max_views\":3}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/pastes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pastes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "paste both constraint",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"content\":\"Expires in 120 seconds OR 2 views\",\"ttl_seconds\":120,\"max_views\":2}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/pastes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pastes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch Paste (API)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/pastes/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pastes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "View Paste (HTML)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/p/695a0ca290e132494b9aaaa2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"p",
+						"695a0ca290e132494b9aaaa2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
